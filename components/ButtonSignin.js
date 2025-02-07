@@ -31,13 +31,13 @@ const ButtonSignin = ({ text = "Get started", extraStyle }) => {
           <img
             src={session.user?.image}
             alt={session.user?.name || "Account"}
-            className="w-1 h-1 rounded-full shrink-0"
+            className="w-6 h-6 rounded-full shrink-0"
             referrerPolicy="no-referrer"
-            width={6}
-            height={6}
+            width={24}
+            height={24}
           />
         ) : (
-          <span className="w-1 h-1 bg-base-100 flex justify-center items-center rounded-full shrink-0">
+          <span className="w-6 h-6 bg-base-300 flex justify-center items-center rounded-full shrink-0">
             {session.user?.name?.charAt(0) || session.user?.email?.charAt(0)}
           </span>
         )}
