@@ -4,13 +4,13 @@ import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import "../components/styles/calendar.css";  // Chemin relatif pour tes styles
+import "../components/styles/calendar.css";  // Relative path for your styles
 
 const localizer = momentLocalizer(moment);
 
 const MyCalendar = () => {
   const [events, setEvents] = useState([]);
-  const [date, setDate] = useState(new Date());  // État pour la date actuelle
+  const [date, setDate] = useState(new Date());  // State for the current date
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -36,12 +36,12 @@ const MyCalendar = () => {
     fetchEvents();
   }, []);
 
-  // Fonction de gestion de la navigation
+  // Function to handle navigation
   const handleNavigate = (newDate) => {
-    setDate(newDate);  // Mise à jour de la date pour la navigation
+    setDate(newDate);  // Update the date for navigation
   };
 
-  // Personnalisation du rendu des événements dans le calendrier
+  // Custom styling for events in the calendar
   const eventStyleGetter = (event) => {
     const style = {
       backgroundColor: '#f39c12',
@@ -49,14 +49,14 @@ const MyCalendar = () => {
       borderRadius: '4px',
       padding: '5px',
       fontSize: '14px',
-      minHeight: '50px',  // Hauteur minimale pour chaque boîte
-      maxHeight: '50px',  // Hauteur maximale pour ne pas laisser les boîtes devenir trop grandes
+      minHeight: '50px',  // Minimum height for each box
+      maxHeight: '50px',  // Maximum height to prevent boxes from getting too large
     };
   
-    // Vérifier si l'événement a une durée trop longue
-    const eventDuration = (new Date(event.end) - new Date(event.start)) / (1000 * 60);  // Durée en minutes
+    // Check if the event has a duration that is too long
+    const eventDuration = (new Date(event.end) - new Date(event.start)) / (1000 * 60);  // Duration in minutes
     if (eventDuration > 60) {
-      style.height = '50px';  // Réduit la hauteur pour les événements longs
+      style.height = '50px';  // Reduce height for long events
     }
   
     return {
@@ -64,7 +64,6 @@ const MyCalendar = () => {
     };
   };
   
-
   return (
     <div className="page-container">
       <div className="header text-center mb-8">
@@ -78,30 +77,30 @@ const MyCalendar = () => {
             startAccessor="start"
             endAccessor="end"
             titleAccessor="title"
-            views={['week']}  // Afficher uniquement la vue "week"
+            views={['week']}  // Show only the "week" view
             defaultView="week"
-            step={60}  // Plage horaire de 60 minutes
-            min={new Date(2025, 1, 6, 8, 0)}  // Heure de début
-            max={new Date(2025, 1, 6, 18, 0)}  // Heure de fin
+            step={60}  // Time slot of 60 minutes
+            min={new Date(2025, 1, 6, 8, 0)}  // Start time
+            max={new Date(2025, 1, 6, 18, 0)}  // End time
             style={{ height: '625px' }}
-            date={date}  // Assigner la date actuelle
-            onNavigate={handleNavigate}  // Gestion de la navigation
-            toolbar={false}  // Désactive la barre d'outils (et donc les boutons par défaut)
-            eventPropGetter={eventStyleGetter}  // Applique les styles personnalisés aux événements
+            date={date}  // Assign the current date
+            onNavigate={handleNavigate}  // Handle navigation
+            toolbar={false}  // Disable the toolbar (and thus the default buttons)
+            eventPropGetter={eventStyleGetter}  // Apply custom styles to events
           />
         </div>
       </div>
 
       <div className="button-container text-center mt-4">
-        {/* Bouton Today */}
+        {/* Today Button */}
         <button onClick={() => setDate(new Date())} className="btn btn-primary mr-2">
-          Aujourd'hui
+          Aujourd&apos;hui
         </button>
-        {/* Bouton Back */}
+        {/* Back Button */}
         <button onClick={() => handleNavigate(moment(date).subtract(1, "week").toDate())} className="btn btn-secondary mr-2">
           Précédent
         </button>
-        {/* Bouton Next */}
+        {/* Next Button */}
         <button onClick={() => handleNavigate(moment(date).add(1, "week").toDate())} className="btn btn-secondary">
           Suivant
         </button>
