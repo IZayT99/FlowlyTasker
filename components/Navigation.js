@@ -6,14 +6,13 @@ import Menu from "./Menu";
 import Link from "next/link";
 import Image from "next/image";
 import ButtonSignin from "./ButtonSignin";
-import ButtonSignup from "./ButtonSignin";
 
 const Navigation = () => {
   const [top, setTop] = useState(true);
   const [scrolledUp, setScrolledUp] = useState(false);
   const scrollYRef = useRef(0);
-  const cta = <ButtonSignin extraStyle="btn-primary" />;
-  const signup = <ButtonSignup extraStyle="btn-primary" />;
+  const cta = <ButtonSignin extraStyle="bg-green-500 hover:bg-green-600 text-white" />;
+
 
 
   useEffect(() => {
@@ -91,7 +90,6 @@ const Navigation = () => {
         {/* Auth Buttons */}
         <div className="hidden md:flex items-center gap-4">
         {cta}
-        {signup}
         </div>
 
         {/* Mobile Menu Button */}

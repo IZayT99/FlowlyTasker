@@ -1,0 +1,64 @@
+/* S'assurer que la cellule du temps prend toute la largeur disponible */
+.rbc-time-slot {
+    position: relative; /* Nécessaire pour le positionnement absolu des événements */
+    width: 100% !important; /* Forcer la cellule à occuper toute la largeur */
+    height: auto !important; /* Ajuster la hauteur pour l'événement */
+  }
+  
+  /* L'événement doit occuper toute la largeur de la cellule */
+  .rbc-event {
+    position: absolute !important; /* Positionnement absolu à l'intérieur de la cellule */
+    top: 0; /* Commence en haut de la cellule */
+    left: 0; /* Commence à gauche de la cellule */
+    width: 100% !important; /* L'événement occupe toute la largeur */
+    height: 100% !important; /* L'événement occupe toute la hauteur */
+    padding: 5px 10px; /* Espacement autour du texte */
+    background-color: #4CAF50; /* Couleur de fond personnalisée */
+    color: white; /* Couleur du texte */
+    border-radius: 5px; /* Bords arrondis pour les événements */
+    font-size: 14px; /* Taille de police personnalisée */
+    line-height: 1.5; /* Hauteur de ligne pour améliorer la lisibilité */
+    text-align: center; /* Centrer le texte */
+    overflow: hidden; /* Pour éviter les débordements de texte */
+    white-space: nowrap; /* Empêcher le texte de se casser sur plusieurs lignes */
+    text-overflow: ellipsis; /* Ajouter des points de suspension si le texte dépasse */
+  }
+  
+  /* S'assurer que l'élément contenant l'événement prend toute la largeur et hauteur de la cellule */
+  .rbc-event-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap; /* Empêcher le texte de se casser */
+  }
+  
+  /* Améliorer l'apparence du titre de l'événement */
+  .rbc-event-title {
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+  }
+  
+  /* Optionnel : Ajouter un style pour les événements longs */
+  .rbc-event.rbc-event-continues {
+    background-color: #FF5722; /* Couleur différente pour les événements longs */
+  }
+  
+  /* Événements sélectionnés */
+  .rbc-event.rbc-selected {
+    background-color: #2196F3; /* Couleur de fond pour les événements sélectionnés */
+  }
+  
+  /* Masquer les éléments inutiles */
+  .rbc-row-content .rbc-row {
+    display: none;
+  }
+  
+  .rbc-allday-cell {
+    display: none !important;
+  }
+  

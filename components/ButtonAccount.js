@@ -7,11 +7,6 @@ import { useSession, signOut } from "next-auth/react";
 import apiClient from "@/libs/api";
 
 // A button to show user some account actions
-//  1. Billing: open a Stripe Customer Portal to manage their billing (cancel subscription, update payment method, etc.).
-//     You have to manually activate the Customer Portal in your Stripe Dashboard (https://dashboard.stripe.com/test/settings/billing/portal)
-//     This is only available if the customer has a customerId (they made a purchase previously)
-//  2. Logout: sign out and go back to homepage
-// See more at https://shipfa.st/docs/components/buttonAccount
 const ButtonAccount = () => {
   const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +14,7 @@ const ButtonAccount = () => {
   const handleSignOut = () => {
     signOut({ callbackUrl: "/" });
   };
+  
   const handleBilling = async () => {
     setIsLoading(true);
 
@@ -35,7 +31,7 @@ const ButtonAccount = () => {
     setIsLoading(false);
   };
 
-  // Don't show anything if not authenticated (we don't have any info about the user)
+  // Don't show anything if not authenticated
   if (status === "unauthenticated") return null;
 
   return (
@@ -54,8 +50,7 @@ const ButtonAccount = () => {
               />
             ) : (
               <span className="w-6 h-6 bg-base-300 flex justify-center items-center rounded-full shrink-0">
-                {session?.user?.name?.charAt(0) ||
-                  session?.user?.email?.charAt(0)}
+                {session?.user?.name?.charAt(0) || session?.user?.email?.charAt(0)}
               </span>
             )}
 
@@ -90,7 +85,7 @@ const ButtonAccount = () => {
           >
             <Popover.Panel className="absolute left-0 z-10 mt-3 w-screen max-w-[16rem] transform">
               <div className="overflow-hidden rounded-xl shadow-xl ring-1 ring-base-content ring-opacity-5 bg-base-100 p-1">
-                <div className="space-y-0.5 text-sm">
+                <div className="space-y-0.5 text-sm text-base-content">
                   <button
                     className="flex items-center gap-2 hover:bg-base-300 duration-200 py-1.5 px-4 w-full rounded-lg font-medium"
                     onClick={handleBilling}
