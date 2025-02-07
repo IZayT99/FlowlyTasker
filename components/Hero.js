@@ -16,7 +16,7 @@ const Hero = () => {
       50% Limited Time Discount
     </span>
   </a>
-  <h1 className="text-slate-800 dark:text-white text-5xl leading-[3.5rem] lg:text-6xl lg:leading-tight xl:text-[5rem] xl:leading-[5.6rem] font-bold mx-auto max-w-4xl text-center">
+  <h1 className="text-slate-800 dark:text-black text-5xl leading-[3.5rem] lg:text-6xl lg:leading-tight xl:text-[5rem] xl:leading-[5.6rem] font-bold mx-auto max-w-4xl text-center">
     Streamline Your Tasks Effortlessly with FlowlyTasker
   </h1>
   <p className="font-medium text-lg text-slate-500 dark:text-slate-300 leading-relaxed mx-auto max-w-md text-center">
