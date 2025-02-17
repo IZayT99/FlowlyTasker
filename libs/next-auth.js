@@ -46,9 +46,17 @@ export const authOptions = {
   ...(connectMongo && { adapter: MongoDBAdapter(connectMongo) }),
 
   callbacks: {
-    session: async ({ session, token }) => {
+    async jwt({ token, user, account, profile }) {
+      if (user) {
+        token.sub = user.id || profile.id;
+      }
+      console.log('JWT Token:', token); // Log the token to verify the sub field
+      return token;
+    },
+    async session({ session, token }) {
       if (session?.user) {
         session.user.id = token.sub;
+        console.log('Session:', session); // Log the session to verify the user ID
       }
       return session;
     },

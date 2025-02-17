@@ -23,7 +23,14 @@ const MyCalendar = () => {
         const response = await fetch('/api/events');
         const data = await response.json();
         if (Array.isArray(data)) {
-          setEvents(data);
+          const mappedEvents = data.map(event => ({
+            _id: event._id,
+            start: new Date(event.eventDate),
+            end: new Date(event.eventDate), // Assuming the event is a single point in time
+            title: event.eventTitle,
+            description: event.eventDescription,
+          }));
+          setEvents(mappedEvents);
         } else {
           console.error('Expected an array but got:', data);
         }
@@ -96,22 +103,35 @@ const MyCalendar = () => {
   };
 
   const handleSelectEvent = (event) => {
+    console.log('Selected event for deletion:', event);
     setEventToDelete(event);
     setIsDeleteModalOpen(true);
   };
 
   const handleDeleteEvent = async () => {
+    if (!eventToDelete || !eventToDelete._id) {
+      console.error('No event selected for deletion or event ID is missing');
+      return;
+    }
+
+    console.log('Attempting to delete event with ID:', eventToDelete._id);
+
     try {
-      await fetch('/api/events', {
+      const response = await fetch(`/api/events`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ eventId: eventToDelete._id }),
       });
-      setEvents((prevEvents) => prevEvents.filter((e) => e._id !== eventToDelete._id));
-      setIsDeleteModalOpen(false);
-      setEventToDelete(null);
+      if (response.ok) {
+        setEvents((prevEvents) => prevEvents.filter((e) => e._id !== eventToDelete._id));
+        setIsDeleteModalOpen(false);
+        setEventToDelete(null);
+      } else {
+        const errorData = await response.json();
+        console.error('Failed to delete event:', errorData);
+      }
     } catch (error) {
       console.error('Error deleting event:', error);
     }
@@ -221,7 +241,7 @@ function DeleteEventModal({ isOpen, onClose, onDelete, event }) {
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-4 rounded shadow-lg">
         <h2 className="text-xl font-bold mb-4">Delete Event</h2>
-        <p>Are you sure you want to delete the event &quot;{event.title}&quot;?</p>
+        <p>Are you sure you want to delete the event &quot;{event?.title}&quot;?</p>
         <button onClick={onDelete} className="bg-red-500 text-white p-2 rounded mr-2">Delete</button>
         <button onClick={onClose} className="bg-gray-500 text-white p-2 rounded">Cancel</button>
       </div>
