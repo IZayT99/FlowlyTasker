@@ -1,6 +1,13 @@
 import { connectToDatabase } from '../../../libs/mongo';
 import { getSession } from 'next-auth/react';
 import { NextResponse } from 'next/server';
+import connectMongo from '../../../libs/mongoose'; // Adjust the path as necessary
+import React, { useState } from 'react';
+
+const [events, setEvents] = useState([]);
+const [eventDetails, setEventDetails] = useState({ title: '', description: '' });
+const [selectedDate, setSelectedDate] = useState(new Date());
+const [isModalOpen, setIsModalOpen] = useState(false);
 
 export async function POST(req) {
   const session = await getSession({ req });
