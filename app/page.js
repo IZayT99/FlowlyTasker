@@ -1,6 +1,3 @@
-import Link from "next/link";
-import ButtonSignin from "@/components/ButtonSignin";
-import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Problem from "@/components/Problem";
 import Pricing from "@/components/Pricing";

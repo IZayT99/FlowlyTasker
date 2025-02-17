@@ -1,6 +1,4 @@
-import Image from "next/image";
-import TestimonialsAvatars from "./TestimonialsAvatars";
-import config from "@/config";
+// Removed unused imports 'Image', 'TestimonialsAvatars', and 'config'
 
 const Hero = () => {
   return (
