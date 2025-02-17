@@ -23,9 +23,7 @@ export default function Dashboard() {
       case "calendar":
         return (
           <div>
-            <p className="mt-4 text-lg text-gray-600">
             <Calendar/>
-            </p>
           </div>
         );
       case "chart":
