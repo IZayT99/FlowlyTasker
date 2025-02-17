@@ -7,34 +7,37 @@ import { ObjectId } from 'mongodb';
 
 export async function POST(req) {
   const session = await getServerSession({ req, authOptions });
-  if (!session || !session.user.id) {
+  if (!session || !session.user.email) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
   const { db } = await connectToDatabase();
-  const userId = session.user.id;
+  const userEmail = session.user.email;
   const { eventTitle, eventDate, eventDescription } = await req.json();
 
   const result = await db.collection('events').insertOne({
-    userId,
+    userEmail,
     eventTitle,
     eventDate: new Date(eventDate),
     eventDescription,
   });
 
-  return NextResponse.json({ insertedId: result.insertedId }, { status: 201 });
+  // Retrieve the full event document
+  const newEvent = await db.collection('events').findOne({ _id: result.insertedId });
+
+  return NextResponse.json(newEvent, { status: 201 });
 }
 
 export async function GET(req) {
   const session = await getServerSession({ req, authOptions });
-  if (!session || !session.user.id) {
+  if (!session || !session.user.email) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
   const { db } = await connectToDatabase();
-  const userId = session.user.id;
+  const userEmail = session.user.email;
 
-  const events = await db.collection('events').find({ userId }).toArray();
+  const events = await db.collection('events').find({ userEmail }).toArray();
 
   return NextResponse.json(events, { status: 200 });
 }
@@ -42,12 +45,12 @@ export async function GET(req) {
 export async function DELETE(req) {
   const session = await getServerSession({ req, authOptions });
   console.log('Session:', session);
-  if (!session || !session.user.id) {
+  if (!session || !session.user.email) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
   const { db } = await connectToDatabase();
-  const userId = session.user.id;
+  const userEmail = session.user.email;
   const { eventId } = await req.json();
 
   if (!eventId) {
@@ -55,9 +58,9 @@ export async function DELETE(req) {
     return NextResponse.json({ message: 'Event ID is required' }, { status: 400 });
   }
 
-  console.log('Deleting event with ID:', eventId, 'for user:', userId);
 
-  const result = await db.collection('events').deleteOne({ _id: new ObjectId(eventId), userId });
+
+  const result = await db.collection('events').deleteOne({ _id: new ObjectId(eventId), userEmail });
   if (result.deletedCount === 0) {
     return NextResponse.json({ message: 'Event not found or not authorized' }, { status: 404 });
   }

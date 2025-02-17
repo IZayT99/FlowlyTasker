@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
 import Menu from "./Menu";
 import Link from "next/link";
 import Image from "next/image";

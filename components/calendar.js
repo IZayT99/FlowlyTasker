@@ -10,7 +10,7 @@ const localizer = momentLocalizer(moment);
 
 const MyCalendar = () => {
   const [events, setEvents] = useState([]);
-  const [date, setDate] = useState(new Date());  // State for the current date
+  const [date, setDate] = useState(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [eventDetails, setEventDetails] = useState({ title: '', description: '' });
@@ -26,7 +26,7 @@ const MyCalendar = () => {
           const mappedEvents = data.map(event => ({
             _id: event._id,
             start: new Date(event.eventDate),
-            end: new Date(event.eventDate), // Assuming the event is a single point in time
+            end: new Date(event.eventDate),
             title: event.eventTitle,
             description: event.eventDescription,
           }));
@@ -41,12 +41,10 @@ const MyCalendar = () => {
     fetchEvents();
   }, []);
 
-  // Function to handle navigation
   const handleNavigate = (newDate) => {
-    setDate(newDate);  // Update the date for navigation
+    setDate(newDate);
   };
 
-  // Custom styling for events in the calendar
   const eventStyleGetter = (event) => {
     const style = {
       backgroundColor: '#f39c12',
@@ -54,21 +52,12 @@ const MyCalendar = () => {
       borderRadius: '4px',
       padding: '5px',
       fontSize: '14px',
-      minHeight: '50px',  // Minimum height for each box
-      maxHeight: '50px',  // Maximum height to prevent boxes from getting too large
+      minHeight: '50px',
+      maxHeight: '50px',
     };
-  
-    // Check if the event has a duration that is too long
-    const eventDuration = (new Date(event.end) - new Date(event.start)) / (1000 * 60);  // Duration in minutes
-    if (eventDuration > 60) {
-      style.height = '50px';  // Reduce height for long events
-    }
-  
-    return {
-      style,
-    };
+    return { style };
   };
-  
+
   const handleSelectSlot = ({ start }) => {
     setSelectedDate(start);
     setIsModalOpen(true);
@@ -90,8 +79,21 @@ const MyCalendar = () => {
         body: JSON.stringify(newEvent),
       });
       const savedEvent = await response.json();
-      if (savedEvent && savedEvent._id) { // Ensure the response is a valid event object
-        setEvents((prevEvents) => [...prevEvents, savedEvent]);
+      console.log('Saved Event:', savedEvent);
+
+      if (response.ok && savedEvent && savedEvent._id) {
+        const formattedEvent = {
+          _id: savedEvent._id,
+          start: new Date(savedEvent.eventDate),
+          end: new Date(savedEvent.eventDate),
+          title: savedEvent.eventTitle,
+          description: savedEvent.eventDescription,
+        };
+        setEvents((prevEvents) => {
+          const updatedEvents = [...prevEvents, formattedEvent];
+          console.log('Updated Events:', updatedEvents);
+          return updatedEvents;
+        });
       } else {
         console.error('Invalid event data:', savedEvent);
       }
@@ -103,7 +105,6 @@ const MyCalendar = () => {
   };
 
   const handleSelectEvent = (event) => {
-    console.log('Selected event for deletion:', event);
     setEventToDelete(event);
     setIsDeleteModalOpen(true);
   };
@@ -113,8 +114,6 @@ const MyCalendar = () => {
       console.error('No event selected for deletion or event ID is missing');
       return;
     }
-
-    console.log('Attempting to delete event with ID:', eventToDelete._id);
 
     try {
       const response = await fetch(`/api/events`, {
@@ -150,34 +149,40 @@ const MyCalendar = () => {
             startAccessor="start"
             endAccessor="end"
             titleAccessor="title"
-            views={['week']}  // Show only the "week" view
+            views={['week']}
             defaultView="week"
-            step={60}  // Time slot of 60 minutes
-            min={new Date(2025, 1, 6, 8, 0)}  // Start time
-            max={new Date(2025, 1, 6, 18, 0)}  // End time
+            step={60}
+            min={new Date(2025, 1, 6, 8, 0)}
+            max={new Date(2025, 1, 6, 18, 0)}
             style={{ height: '625px' }}
-            date={date}  // Assign the current date
-            onNavigate={handleNavigate}  // Handle navigation
-            toolbar={false}  // Disable the toolbar (and thus the default buttons)
-            eventPropGetter={eventStyleGetter}  // Apply custom styles to events
-            selectable={true} // Enable date selection
-            onSelectSlot={handleSelectSlot} // Handle date selection
-            onSelectEvent={handleSelectEvent} // Handle event selection
+            date={date}
+            onNavigate={handleNavigate}
+            toolbar={false}
+            eventPropGetter={eventStyleGetter}
+            selectable={true}
+            onSelectSlot={handleSelectSlot}
+            onSelectEvent={handleSelectEvent}
           />
         </div>
       </div>
 
       <div className="button-container text-center mt-4">
-        {/* Today Button */}
-        <button onClick={() => setDate(new Date())} className="btn btn-primary mr-2">
+        <button
+          onClick={() => setDate(new Date())}
+          className="bg-gradient-to-b from-gray-800 to-black text-white font-bold py-2 px-4 rounded-lg shadow-md hover:from-gray-700 hover:to-black transition duration-200 mr-2"
+        >
           Aujourd&apos;hui
         </button>
-        {/* Back Button */}
-        <button onClick={() => handleNavigate(moment(date).subtract(1, "week").toDate())} className="btn btn-secondary mr-2">
+        <button
+          onClick={() => handleNavigate(moment(date).subtract(1, "week").toDate())}
+          className="bg-gradient-to-b from-gray-800 to-black text-white font-bold py-2 px-4 rounded-lg shadow-md hover:from-gray-700 hover:to-black transition duration-200 mr-2"
+        >
           Précédent
         </button>
-        {/* Next Button */}
-        <button onClick={() => handleNavigate(moment(date).add(1, "week").toDate())} className="btn btn-secondary">
+        <button
+          onClick={() => handleNavigate(moment(date).add(1, "week").toDate())}
+          className="bg-gradient-to-b from-gray-800 to-black text-white font-bold py-2 px-4 rounded-lg shadow-md hover:from-gray-700 hover:to-black transition duration-200"
+        >
           Suivant
         </button>
       </div>
@@ -209,26 +214,38 @@ function EventModal({ isOpen, onClose, onSave, eventDetails, setEventDetails }) 
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-4 rounded shadow-lg">
-        <h2 className="text-xl font-bold mb-4">Add Event</h2>
+    <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
+      <div className="bg-gradient-to-b from-gray-800 to-black p-6 rounded-lg shadow-lg w-96">
+        <h2 className="text-2xl font-bold text-white mb-4">Add Event</h2>
         <input
           type="text"
           name="title"
           placeholder="Event Title"
           value={eventDetails.title}
           onChange={handleChange}
-          className="mb-2 p-2 border rounded w-full"
+          className="mb-3 p-2 w-full rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300"
         />
         <textarea
           name="description"
           placeholder="Event Description"
           value={eventDetails.description}
           onChange={handleChange}
-          className="mb-2 p-2 border rounded w-full"
+          className="mb-3 p-2 w-full rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300"
         />
-        <button onClick={onSave} className="bg-blue-500 text-white p-2 rounded mr-2">Save</button>
-        <button onClick={onClose} className="bg-gray-500 text-white p-2 rounded">Cancel</button>
+        <div className="flex justify-end space-x-2">
+          <button
+            onClick={onSave}
+            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-200"
+          >
+            Save
+          </button>
+          <button
+            onClick={onClose}
+            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-200"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -238,12 +255,26 @@ function DeleteEventModal({ isOpen, onClose, onDelete, event }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-4 rounded shadow-lg">
-        <h2 className="text-xl font-bold mb-4">Delete Event</h2>
-        <p>Are you sure you want to delete the event &quot;{event?.title}&quot;?</p>
-        <button onClick={onDelete} className="bg-red-500 text-white p-2 rounded mr-2">Delete</button>
-        <button onClick={onClose} className="bg-gray-500 text-white p-2 rounded">Cancel</button>
+    <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
+      <div className="bg-gradient-to-b from-gray-800 to-black p-6 rounded-lg shadow-lg w-96">
+        <h2 className="text-2xl font-bold text-white mb-4">Delete Event</h2>
+        <p className="text-white mb-4">
+          Are you sure you want to delete the event &quot;{event?.title}&quot;?
+        </p>
+        <div className="flex justify-end space-x-2">
+          <button
+            onClick={onDelete}
+            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-200"
+          >
+            Delete
+          </button>
+          <button
+            onClick={onClose}
+            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-200"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );

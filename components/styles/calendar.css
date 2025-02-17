@@ -9,7 +9,7 @@
   .rbc-event {
     position: absolute !important; /* Positionnement absolu à l'intérieur de la cellule */
     top: 0; /* Commence en haut de la cellule */
-    left: 0; /* Commence à gauche de la cellule */
+    left: 2.5% !important;; /* Commence à gauche de la cellule */
     width: 100% !important; /* L'événement occupe toute la largeur */
     height: 100% !important; /* L'événement occupe toute la hauteur */
     padding: 5px 10px; /* Espacement autour du texte */

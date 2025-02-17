@@ -1,19 +1,19 @@
 "use client"; // Ensure Sidebar is a Client Component
 
-import { Home, Users, CreditCard, Settings } from "lucide-react";
+import { Home, Calendar, BarChart2, MessageCircle } from "lucide-react";
 import ButtonAccount from "@/components/ButtonAccount"; // Import ButtonAccount
 
 const Sidebar = ({ setActivePath, activePath }) => {
   const menuItems = [
     { name: "Dashboard", icon: <Home size={20} />, path: "dashboard" },
-    { name: "Calendar", icon: <Users size={20} />, path: "calendar" },
-    { name: "Chart", icon: <CreditCard size={20} />, path: "chart" },
-    { name: "Ask AI", icon: <Settings size={20} />, path: "askai" },
+    { name: "Calendar", icon: <Calendar size={20} />, path: "calendar" },
+    { name: "Chart", icon: <BarChart2 size={20} />, path: "chart" },
+    { name: "Ask AI", icon: <MessageCircle size={20} />, path: "askai" },
   ];
 
   return (
-    <aside className="w-64 h-screen bg-gray-900 text-white p-6 flex flex-col">
-      <h1 className="text-2xl font-bold text-blue-400 mb-12">FlowlyTasker</h1>
+    <aside className="w-64 h-screen bg-gradient-to-b from-gray-800 to-black-900 text-white p-6 flex flex-col shadow-lg">
+      <h1 className="text-3xl font-bold text-blue-400 mb-12">FlowlyTasker</h1>
 
       {/* Account Button */}
       <div className="mb-6">
@@ -21,7 +21,7 @@ const Sidebar = ({ setActivePath, activePath }) => {
       </div>
 
       {/* Navigation */}
-      <nav className="flex flex-col space-y-6">
+      <nav className="flex flex-col space-y-4">
         {menuItems.map((item) => (
           <div
             key={item.name}
