@@ -2,12 +2,6 @@ import { connectToDatabase } from '../../../libs/mongo';
 import { getSession } from 'next-auth/react';
 import { NextResponse } from 'next/server';
 import connectMongo from '../../../libs/mongoose'; // Adjust the path as necessary
-import React, { useState } from 'react';
-
-const [events, setEvents] = useState([]);
-const [eventDetails, setEventDetails] = useState({ title: '', description: '' });
-const [selectedDate, setSelectedDate] = useState(new Date());
-const [isModalOpen, setIsModalOpen] = useState(false);
 
 export async function POST(req) {
   const session = await getSession({ req });
@@ -58,50 +52,4 @@ export async function DELETE(req) {
 
   await db.collection('events').deleteOne({ _id: eventId, userId });
   return NextResponse.json({ message: 'Event deleted' }, { status: 200 });
-}
-
-const fetchEvents = async () => {
-  try {
-    const response = await fetch('/api/events', {
-      method: 'GET',
-      credentials: 'include', // Ensure credentials are included
-    });
-    const data = await response.json();
-    if (Array.isArray(data)) {
-      setEvents(data);
-    } else {
-      console.error('Expected an array but got:', data);
-    }
-  } catch (error) {
-    console.error('Error fetching events:', error);
-  }
-};
-
-const handleSaveEvent = async () => {
-  const newEvent = {
-    eventTitle: eventDetails.title,
-    eventDate: selectedDate,
-    eventDescription: eventDetails.description,
-  };
-
-  try {
-    const response = await fetch('/api/events', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include', // Ensure credentials are included
-      body: JSON.stringify(newEvent),
-    });
-    const savedEvent = await response.json();
-    if (savedEvent && savedEvent._id) {
-      setEvents((prevEvents) => [...prevEvents, savedEvent]);
-    } else {
-      console.error('Invalid event data:', savedEvent);
-    }
-    setIsModalOpen(false);
-    setEventDetails({ title: '', description: '' });
-  } catch (error) {
-    console.error('Error saving event:', error);
-  }
-}; 
+} 
