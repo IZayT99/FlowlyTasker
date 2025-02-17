@@ -22,8 +22,11 @@ const MyCalendar = () => {
       try {
         const response = await fetch('/api/events');
         const data = await response.json();
-        console.log('Fetched events:', data); // Debugging line
-        setEvents(data);
+        if (Array.isArray(data)) {
+          setEvents(data);
+        } else {
+          console.error('Expected an array but got:', data);
+        }
       } catch (error) {
         console.error('Error fetching events:', error);
       }
@@ -80,7 +83,11 @@ const MyCalendar = () => {
         body: JSON.stringify(newEvent),
       });
       const savedEvent = await response.json();
-      setEvents((prevEvents) => [...prevEvents, savedEvent]);
+      if (savedEvent && savedEvent._id) { // Ensure the response is a valid event object
+        setEvents((prevEvents) => [...prevEvents, savedEvent]);
+      } else {
+        console.error('Invalid event data:', savedEvent);
+      }
       setIsModalOpen(false);
       setEventDetails({ title: '', description: '' });
     } catch (error) {
