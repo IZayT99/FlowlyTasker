@@ -31,3 +31,12 @@ if (!uri) {
 }
 
 export default clientPromise;
+
+export async function connectToDatabase() {
+  if (!clientPromise) {
+    throw new Error("MongoDB client is not initialized");
+  }
+  const client = await clientPromise;
+  const db = client.db(); // You can specify the database name here if needed
+  return { db, client };
+}
