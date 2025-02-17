@@ -25,7 +25,6 @@ export async function POST(req) {
 export async function GET(req) {
   const session = await getSession({ req });
   if (!session) {
-    console.log('Session not found:', session);
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
