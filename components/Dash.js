@@ -10,7 +10,7 @@ const Dash = () => {
       <div className="flex-1 bg-gradient-to-b from-gray-600 to-white text-gray-800 p-6 rounded-lg shadow-lg">
         <div className="flex items-center mb-4">
           <CreditCard className="w-8 h-8 text-blue-500 mr-2" />
-          <h2 className="text-2xl font-bold">Informations sur l'abonnement</h2>
+          <h2 className="text-2xl font-bold">Informations sur l&apos;abonnement</h2>
         </div>
         <ul className="text-lg space-y-2">
           <li className="flex items-center">
@@ -27,7 +27,7 @@ const Dash = () => {
           </li>
           <li className="flex items-center">
             <Users className="w-5 h-5 text-blue-500 mr-2" />
-             Annuler, mettre à niveau ou modifier l'abonnement
+            Annuler, mettre à niveau ou modifier l&apos;abonnement
           </li>
         </ul>
       </div>
@@ -67,19 +67,19 @@ const Dash = () => {
         <ul className="text-lg space-y-2">
           <li className="flex items-center">
             <FileText className="w-5 h-5 text-purple-500 mr-2" />
-             Nom, description, statut
+            Nom, description, statut
           </li>
           <li className="flex items-center">
             <CheckCircle className="w-5 h-5 text-purple-500 mr-2" />
-             Tâches complétées, échéances à venir
+            Tâches complétées, échéances à venir
           </li>
           <li className="flex items-center">
             <Users className="w-5 h-5 text-purple-500 mr-2" />
-             Membres du projet, rôles, commentaires
+            Membres du projet, rôles, commentaires
           </li>
           <li className="flex items-center">
             <BarChart className="w-5 h-5 text-purple-500 mr-2" />
-             Graphiques, statistiques, performances
+            Graphiques, statistiques, performances
           </li>
         </ul>
       </div>

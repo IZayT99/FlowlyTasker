@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
 import Menu from "./Menu";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,8 +11,6 @@ const Navigation = () => {
   const [scrolledUp, setScrolledUp] = useState(false);
   const scrollYRef = useRef(0);
   const cta = <ButtonSignin extraStyle="bg-green-500 hover:bg-green-600 text-white" />;
-
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,20 +37,19 @@ const Navigation = () => {
         Manage your Calendar, Daily Tasks, and Projects effortlessly! Integrations coming soon...
       </div>
       <nav
-  className={`min-h-[89px] flex items-center justify-between p-6 duration-200 border-b ${
-    top
-      ? "bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-900" // Ajout d'un fond en mode mobile
-      : "bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-900"
-  }`}
->
-
-        {/* Logo and Brand */} 
+        className={`min-h-[89px] flex items-center justify-between p-6 duration-200 border-b ${
+          top
+            ? "bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-900"
+            : "bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-900"
+        }`}
+      >
+        {/* Logo and Brand */}
         <div className="flex items-center gap-6">
           <Link href="/" className="flex items-center gap-3">
-            <Image 
-              src="/icon.png" 
-              alt="Logo" 
-              width={40} 
+            <Image
+              src="/icon.png"
+              alt="Logo"
+              width={40}
               height={40}
               className="w-10 h-10"
             />
@@ -64,32 +60,30 @@ const Navigation = () => {
         </div>
 
         {/* Desktop Navigation */}
-    {/* Desktop Navigation */}
-<div className="hidden md:flex items-center gap-8 absolute left-1/2 translate-x-[-50%]">
-  <Link 
-    href="/pricing" 
-    className="text-slate-600 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white transition-colors"
-  >
-    Pricing
-  </Link>
-  <Link 
-    href="/faq" 
-    className="text-slate-600 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white transition-colors"
-  >
-    FAQ
-  </Link>
-  <Link 
-    href="/reviews" 
-    className="text-slate-600 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white transition-colors"
-  >
-    Reviews
-  </Link>
-</div>
-
+        <div className="hidden md:flex items-center gap-8 absolute left-1/2 translate-x-[-50%]">
+          <Link
+            href="/pricing"
+            className="text-slate-600 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white transition-colors"
+          >
+            Pricing
+          </Link>
+          <Link
+            href="/faq"
+            className="text-slate-600 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white transition-colors"
+          >
+            FAQ
+          </Link>
+          <Link
+            href="/reviews"
+            className="text-slate-600 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white transition-colors"
+          >
+            Reviews
+          </Link>
+        </div>
 
         {/* Auth Buttons */}
         <div className="hidden md:flex items-center gap-4">
-        {cta}
+          {cta}
         </div>
 
         {/* Mobile Menu Button */}
