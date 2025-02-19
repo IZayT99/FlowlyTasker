@@ -7,7 +7,7 @@ const Sidebar = ({ setActivePath, activePath }) => {
   const menuItems = [
     { name: "Dashboard", icon: <Home size={20} />, path: "dashboard" },
     { name: "Calendar", icon: <Calendar size={20} />, path: "calendar" },
-    { name: "Chart", icon: <BarChart2 size={20} />, path: "chart" },
+    { name: "Projects", icon: <BarChart2 size={20} />, path: "projects" },
     { name: "Ask AI", icon: <MessageCircle size={20} />, path: "askai" },
   ];
 

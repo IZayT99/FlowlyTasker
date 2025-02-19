@@ -3,6 +3,7 @@
 import { useState } from "react"; // Import useState
 import Sidebar from "@/components/sidebar"; // Import Sidebar
 import Calendar from "@/components/calendar"; // Import Sidebar
+import Dash from "@/components/Dash"; // Import Sidebar
 
 export default function Dashboard() {
   const [activePath, setActivePath] = useState("dashboard"); // Default is "dashboard"
@@ -13,11 +14,7 @@ export default function Dashboard() {
       case "dashboard":
         return (
           <div>
-            <h1 className="text-4xl font-extrabold text-gray-800">Dashboard Content</h1>
-            {/* Add your Dashboard-specific content */}
-            <p className="mt-4 text-lg text-gray-600">
-              Welcome to your Dashboard! Here you can manage your tasks and track your progress.
-            </p>
+           <Dash/>
           </div>
         );
       case "calendar":
@@ -26,7 +23,7 @@ export default function Dashboard() {
             <Calendar/>
           </div>
         );
-      case "chart":
+      case "projects":
         return (
           <div>
             <h1 className="text-4xl font-extrabold text-gray-800">Subscription Content</h1>
